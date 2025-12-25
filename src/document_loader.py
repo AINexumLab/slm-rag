@@ -65,3 +65,23 @@ def load_pdf_document(pdf_path: str, output_path: str) -> List[Dict]:
             f.write("\n\n")
 
     return documents
+
+
+
+
+'''
+# i could use this here instead of re in next stage
+from langchain_core.documents import Document
+def to_langchain_documents(pages):
+    documents = []
+
+    for page in pages:
+        documents.append(
+            Document(
+                page_content=page["text"],
+                metadata=page["metadata"]
+            )
+        )
+
+    return documents
+'''
