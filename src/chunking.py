@@ -56,6 +56,7 @@ def chunk_text(md_path: str):
                     "source": md_path,
                     "page_number": page_number,
                     "chunk_index": chunk_index,
+                    #"section_title": None  this is available in document_loader but removed in this step
                 }
             })
             chunk_index += 1
