@@ -10,6 +10,8 @@ Vectors capture semantic meaning, not exact words.
 """
 
 #pip install -U sentence-transformers
+
+# comment below is for my fucking tensorflow issues
 """
 import os
 os.environ["TRANSFORMERS_NO_TF"] = "1" 
@@ -21,7 +23,7 @@ from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("BAAI/bge-base-en-v1.5")
 
 def embed_chunks(chunks):
-    texts = [f"passage: {c['text']}" for c in chunks]  # 
+    texts = [f"passage: {c['text']}" for c in chunks]
     embeddings = model.encode(
         texts,
         normalize_embeddings=True,
