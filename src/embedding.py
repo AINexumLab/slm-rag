@@ -23,7 +23,7 @@ from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("BAAI/bge-base-en-v1.5")
 
 def embed_chunks(chunks):
-    texts = [f"passage: {c['text']}" for c in chunks]
+    texts = [f"{c['text']}" for c in chunks]
     embeddings = model.encode(
         texts,
         normalize_embeddings=True,
@@ -32,7 +32,6 @@ def embed_chunks(chunks):
         convert_to_numpy=True      #Returns embeddings as NumPy arrays
         #convert_to_tensor=True     #Returns a PyTorch tensor
         #device="cpu"
-
     )
 
     for chunk, emb in zip(chunks, embeddings):
@@ -40,14 +39,14 @@ def embed_chunks(chunks):
 
     return chunks
 
-
-
-
 def embed_query(query: str):
-    query_text = f"query: {query}"
+    # Based on https://huggingface.co/BAAI/bge-base-en-v1.5
+    instruction = "Represent this sentence for searching relevant passages:"
+    
     embedding = model.encode(
-        query_text,
+        f"{instruction} {query}",
         normalize_embeddings=True,
         convert_to_numpy=True
     )
+    
     return embedding
