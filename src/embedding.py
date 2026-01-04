@@ -9,44 +9,50 @@ Chunk 18 -> vector R^768
 Vectors capture semantic meaning, not exact words.
 """
 
-#pip install -U sentence-transformers
-
 # comment below is for my fucking tensorflow issues
 """
 import os
 os.environ["TRANSFORMERS_NO_TF"] = "1" 
 """
 
-
 from sentence_transformers import SentenceTransformer
+import torch
 
-model = SentenceTransformer("BAAI/bge-base-en-v1.5")
+class Embedder:
+    def __init__(self, model_name="BAAI/bge-base-en-v1.5"):
+        self.model = SentenceTransformer(model_name)
+        
+        self.device = "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu"
+        print(f"Device: {self.device}")
 
-def embed_chunks(chunks):
-    texts = [f"{c['text']}" for c in chunks]
-    embeddings = model.encode(
-        texts,
-        normalize_embeddings=True,
-        batch_size=32,
-        show_progress_bar=True,
-        convert_to_numpy=True      #Returns embeddings as NumPy arrays
-        #convert_to_tensor=True     #Returns a PyTorch tensor
-        #device="cpu"
-    )
-
-    for chunk, emb in zip(chunks, embeddings):
-        chunk["embedding"] = emb
-
-    return chunks
-
-def embed_query(query: str):
-    # Based on https://huggingface.co/BAAI/bge-base-en-v1.5
-    instruction = "Represent this sentence for searching relevant passages:"
+    def embed_query(self, text: str):
+        # Based on https://huggingface.co/BAAI/bge-base-en-v1.5 documentation.
+        # Instruction is `optional` for this model.
+        instruction = "Represent this sentence for searching relevant passages:"
+        
+        embedding = self.model.encode(
+            f"{instruction} {text}",
+            normalize_embeddings=True,
+            convert_to_numpy=True,
+            device=self.device
+        )
+        
+        return embedding
     
-    embedding = model.encode(
-        f"{instruction} {query}",
-        normalize_embeddings=True,
-        convert_to_numpy=True
-    )
-    
-    return embedding
+    def embed_chunks(self, chunks):
+        texts = [c['text'] for c in chunks]
+        
+        embeddings = self.model.encode(
+            texts,
+            normalize_embeddings=True,
+            batch_size=32,
+            show_progress_bar=True,
+            device=self.device,
+            convert_to_numpy=True      # Returns embeddings as NumPy arrays
+            # convert_to_tensor=True   # Returns a PyTorch tensor
+        )
+
+        for chunk, emb in zip(chunks, embeddings):
+            chunk["embedding"] = emb
+
+        return chunks
