@@ -37,7 +37,7 @@ def chunk_text(md_path: str):
     pages = [p.strip() for p in pages if p.strip()]
 
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=300,
+        chunk_size=1000,
         chunk_overlap=50,
         is_separator_regex=False, #separators=["\n\n", "\n", ".", " ", ""]
         length_function=len,
