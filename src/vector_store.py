@@ -29,7 +29,7 @@ class FaissVectorStore:
     def add(self, embeddings):
         self.index.add(np.array(embeddings).astype("float32"))
 
-    def search(self, query_embedding, top_k=5):
+    def search(self, query_embedding, top_k=3):
         scores, indices = self.index.search(np.array([query_embedding]).astype("float32"), top_k)
 
         results = []

@@ -21,6 +21,7 @@ import torch
 class Embedder:
     def __init__(self, model_name="BAAI/bge-base-en-v1.5"):
         self.model = SentenceTransformer(model_name)
+        print(f"Model: {model_name}")
         
         self.device = "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu"
         print(f"Device: {self.device}")
