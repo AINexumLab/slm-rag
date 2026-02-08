@@ -2,6 +2,9 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 
 class LM:
+    """
+    Abstract interface for language models.
+    """
     # Sample models:
     # "google/gemma-3-270m" 575.5 MB
     # "google/gemma-3-1b-it" 2.04 GB

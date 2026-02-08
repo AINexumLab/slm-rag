@@ -3,6 +3,9 @@ from pymupdf4llm import to_markdown
 from typing import List, Dict
 
 def load_pdf_document(pdf_path: str, output_path: str) -> List[Dict]:
+    """
+    Load and extract text from PDF documents.
+    """
     pages = to_markdown(
         pdf_path,
         page_chunks=True,     # keep page boundaries

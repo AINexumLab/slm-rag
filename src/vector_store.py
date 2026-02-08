@@ -3,6 +3,7 @@ import numpy as np
 
 class FaissVectorStore:
     """
+    Store and retrieve vectors using FAISS:
     https://github.com/facebookresearch/faiss
     """
     def __init__(self, embedding_dim):
