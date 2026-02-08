@@ -1,7 +1,3 @@
-"""
-The Language Model (LM) takes the constructed prompt and generate answer.
-"""
-
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 
@@ -18,7 +14,7 @@ class LM:
         self.model = AutoModelForCausalLM.from_pretrained(model_name).to(self.device)
         print(f"Model: {model_name}")
     
-    def generate_text(self, prompt, desired_output_tokens=128):
+    def generate_text(self, prompt, desired_output_tokens=256):
         inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
         
         prompt_len = inputs["input_ids"].shape[1]

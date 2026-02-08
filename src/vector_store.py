@@ -1,28 +1,10 @@
-"""
-Create a vector index using FAISS (or similar)
-
-https://github.com/facebookresearch/faiss
-
-Each vector is linked to the original text chunk and metadata.
-
-Save and load the index so don't need to recompute embeddings every time.
-"""
-
-"""
-The query vector is compared against stored chunk vectors.
-
-Similarity search finds top-K relevant chunks.
-
-Example (K=3):
-Chunk 18 (something in Section 5) ← most similar
-Chunk 19 (another thing in Section 5)
-Chunk 12 (related discussion)
-"""
-
 import faiss
 import numpy as np
 
 class FaissVectorStore:
+    """
+    https://github.com/facebookresearch/faiss
+    """
     def __init__(self, embedding_dim):
         self.index = faiss.IndexFlatIP(embedding_dim)
 
