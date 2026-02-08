@@ -2,6 +2,9 @@ import re
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 def chunk_text(md_path: str):
+    """
+    Split documents' text into chunks.
+    """
     with open(md_path, "r", encoding="utf-8") as f:
         markdown_text = f.read()
 
@@ -11,7 +14,7 @@ def chunk_text(md_path: str):
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=600,
         chunk_overlap=25,
-        is_separator_regex=False, #separators=["\n\n", "\n", ".", " ", ""]
+        is_separator_regex=False,
         length_function=len,
     )
 
@@ -27,8 +30,7 @@ def chunk_text(md_path: str):
                 "metadata": {
                     "source": md_path,
                     "page_number": page_number,
-                    "chunk_index": chunk_index,
-                    #"section_title": None  this is available in document_loader but removed in this step
+                    "chunk_index": chunk_index
                 }
             })
             chunk_index += 1
